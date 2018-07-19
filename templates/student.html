@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>学生列表</title>
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.css" rel="stylesheet">
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/1.11.0/jquery.js"></script>
+    <script type="text/javascript" src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.js"></script>
+</head>
+<body>
+<ul>
+    {% for student in students %}
+        <li>{{ student.s_name }}</li>
+    {% endfor %}
+</ul>
+<nav aria-label="Page navigation">
+    <ul class="pagination">
+
+        {% if page_object.has_previous %}
+            <li class="disabled">
+                <a href="{% url 'jiale:get_stundet' %}?page={{ page_object.previous_page_number }}"
+                   aria-label="Previous">
+
+                    <span aria-hidden="true">&laquo;</span>
+
+                </a>
+            </li>
+        {% else %}
+            <li class="disabled">
+                <a href="#" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+        {% endif %}
+
+
+        {% for page in page_range %}
+            {% ifequal page page_object.number %}
+                <li class="active"><a href="{% url 'jiale:get_stundet' %}?page={{ page }}">{{ page }}</a></li>
+            {% else %}
+                <li><a href="{% url 'jiale:get_stundet' %}?page={{ page }}">{{ page }}</a></li>
+            {% endifequal %}
+        {% endfor %}
+        {% if page_object.has_next %}
+
+            <li>
+                <a href="{% url 'jiale:get_stundet' %}?page={{ page_object.next_page_number }}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        {% else %}
+            <li class="disabled">
+                <a href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        {% endif %}
+
+
+    </ul>
+</nav>
+
+</body>
+</html>

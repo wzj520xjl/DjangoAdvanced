@@ -1,5 +1,6 @@
 import random
 
+from django.core.paginator import Paginator
 from django.http import HttpResponse
 from django.shortcuts import render
 
@@ -20,4 +21,18 @@ def add_student(request):
 
 
 def get_student(request):
-    return None
+    page_num = int(request.GET.get('page',1))
+
+    students = Student.objects.all()
+
+    paginator = Paginator(students,10)
+
+    page = paginator.page(page_num)
+
+    data={
+        'students':page.object_list,
+        'page_object':page,
+        'page_range':paginator.page_range,
+    }
+
+    return render(request,'student.html',context=data)
